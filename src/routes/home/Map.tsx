@@ -45,7 +45,6 @@ const POLYGON_NODES_MIN_QUANTITY = 3;
 const POLYLINE_NODES_MIN_QUANTITY = 2;
 
 export const DefaultPolygonOptions = {
-  name: "",
   borderColor: ButtonColor.Blue,
   backgroundColor: ButtonColor.Blue,
   borderWidth: BorderWidth.ExtraLarge,
@@ -252,10 +251,6 @@ export const Map = forwardRef<MapRef, MapProps>(
               const { type, overlay } = evt;
 
               if (overlay) {
-                /**
-                 * Remove overlay from `DrawingManager` state, clear listeners,
-                 * resetting drawing buttons
-                 */
                 window.google.maps.event.clearInstanceListeners(overlay);
                 overlay.setMap(null);
                 resetDrawingButtons?.();
