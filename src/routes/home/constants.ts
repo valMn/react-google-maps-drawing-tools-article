@@ -11,17 +11,22 @@ const PlusSymbol = {
 };
 
 const MapConfigOptions: google.maps.MapOptions = {
-  zoomControl: false,
-  mapTypeControl: false,
-  disableDefaultUI: true,
-  fullscreenControl: false,
+  zoomControl: true,
+
+  mapTypeControl: true,
+  disableDefaultUI: false,
+  fullscreenControl: true,
   streetViewControl: false,
   gestureHandling: "greedy",
+  mapTypeId: "satellite",
 };
 
 const MapConfig = {
-  zoom: 12,
-  center: { lat: 48.716385, lng: 21.261074 },
+  zoom: 18,
+  center: {
+    lat: 51.3535,
+    lng: -2.2876,
+  },
   options: MapConfigOptions,
   mapContainerStyle: {
     width: "100vw",

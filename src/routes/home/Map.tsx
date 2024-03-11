@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle } from "react";
+import React, { forwardRef, useEffect, useImperativeHandle } from "react";
 import OutsideClickHandler from "react-outside-click-handler";
 import {
   Circle,
@@ -8,6 +8,7 @@ import {
   InfoWindow,
   Polygon,
   Polyline,
+  // StandaloneSearchBox,
 } from "@react-google-maps/api";
 import * as R from "ramda";
 import styled from "styled-components";
@@ -18,7 +19,7 @@ import * as MT from "./mapTypes";
 import {
   BorderWidth,
   ButtonColor,
-  NamesToColors,
+  // NamesToColors,
   PolygonCard,
 } from "./PolygonCard";
 import { UndoButton } from "./UndoButton";
@@ -27,7 +28,7 @@ import {
   coordinateFuncsToCoordinates,
   dropAndReturnElementById,
   dropAndReturnLastElement,
-  getPolygonOptionByName,
+  // getPolygonOptionByName,
   processOnVertexOrEdgeClick,
 } from "./utils";
 
@@ -91,6 +92,7 @@ export const Map = forwardRef<MapRef, MapProps>(
   ({ children, resetDrawingButtons, ...rest }, ref) => {
     const mapRef = React.useRef<GoogleMap | null>(null);
     const drawingRef = React.useRef<DrawingManager | null>(null);
+    // const searchRef = React.useRef<StandaloneSearchBox | null>(null);
 
     const [polygons, setPolygons] = React.useState<MT.PolygonType[]>([]);
     const [circles, setCircles] = React.useState<MT.CircleType[]>([]);
@@ -104,6 +106,19 @@ export const Map = forwardRef<MapRef, MapProps>(
       React.useState<MT.PolygonCardType | null>(null);
     const [isClickOutsideDisabled, setIsClickOutsideDisabled] =
       React.useState(false);
+
+    const [area, setArea] = React.useState(0);
+
+    useEffect(() => {
+      const calculatedArea = calculatePolygonArea({
+        polygons,
+        polygonId: polygonCardData?.id ?? 0,
+      });
+
+      setArea(parseFloat(calculatedArea));
+
+      console.log("🟩", calculatedArea);
+    }, [area, polygons, polygonCardData]);
 
     const resetDrawingToolsMode = () => {
       drawingRef.current?.state.drawingManager?.setDrawingMode(null);
@@ -226,6 +241,8 @@ export const Map = forwardRef<MapRef, MapProps>(
       });
     };
 
+    const [places, setPlaces] = React.useState(null);
+
     return (
       <MapStyles>
         <GoogleMap
@@ -239,6 +256,35 @@ export const Map = forwardRef<MapRef, MapProps>(
           {...MapConfig}
           {...rest}
         >
+          {/* <StandaloneSearchBox
+            ref={searchRef}
+            // bounds={props.bounds}
+
+            onPlacesChanged={() => {
+              const places = searchRef.current?.searchBox.getPlaces();
+              setPlaces(places);
+            }}
+          >
+            <input
+              type='text'
+              placeholder='Customized your placeholder'
+              style={{
+                boxSizing: `border-box`,
+                border: `1px solid transparent`,
+                position: 'absolute',
+                right: 0,
+                backgroundColor: 'white',
+                width: `240px`,
+                height: `32px`,
+                padding: `0 12px`,
+                borderRadius: `3px`,
+                boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
+                fontSize: `14px`,
+                outline: `none`,
+                textOverflow: `ellipses`,
+              }}
+            />
+          </StandaloneSearchBox> */}
           <DrawingManager
             ref={drawingRef}
             options={{
@@ -612,48 +658,48 @@ export const Map = forwardRef<MapRef, MapProps>(
                     polygons,
                     polygonId: polygonCardData.id,
                   })}
-                  selectedBackgroundColor={
-                    getPolygonOptionByName({
-                      polygons,
-                      name: "backgroundColor",
-                      polygonId: polygonCardData.id,
-                    }) as ButtonColor
-                  }
-                  selectedBorderColor={
-                    getPolygonOptionByName({
-                      polygons,
-                      name: "borderColor",
-                      polygonId: polygonCardData.id,
-                    }) as ButtonColor
-                  }
-                  selectedBorderWidth={
-                    getPolygonOptionByName({
-                      polygons,
-                      name: "borderWidth",
-                      polygonId: polygonCardData.id,
-                    }) as BorderWidth
-                  }
-                  onChangeBorderColor={(color: ButtonColor) => {
-                    handleChangePolygonOptions({
-                      id: polygonCardData.id,
-                      polygonOption: { borderColor: color },
-                      options: { strokeColor: NamesToColors[color] },
-                    });
-                  }}
-                  onChangeBackgroundColor={(color: ButtonColor) => {
-                    handleChangePolygonOptions({
-                      id: polygonCardData.id,
-                      polygonOption: { backgroundColor: color },
-                      options: { fillColor: NamesToColors[color] },
-                    });
-                  }}
-                  onChangeBorderWidth={(borderWidth: BorderWidth) => {
-                    handleChangePolygonOptions({
-                      id: polygonCardData.id,
-                      polygonOption: { borderWidth },
-                      options: { strokeWeight: borderWidth },
-                    });
-                  }}
+                  // selectedBackgroundColor={
+                  //   getPolygonOptionByName({
+                  //     polygons,
+                  //     name: "backgroundColor",
+                  //     polygonId: polygonCardData.id,
+                  //   }) as ButtonColor
+                  // }
+                  // selectedBorderColor={
+                  //   getPolygonOptionByName({
+                  //     polygons,
+                  //     name: "borderColor",
+                  //     polygonId: polygonCardData.id,
+                  //   }) as ButtonColor
+                  // }
+                  // selectedBorderWidth={
+                  //   getPolygonOptionByName({
+                  //     polygons,
+                  //     name: "borderWidth",
+                  //     polygonId: polygonCardData.id,
+                  //   }) as BorderWidth
+                  // }
+                  // onChangeBorderColor={(color: ButtonColor) => {
+                  //   handleChangePolygonOptions({
+                  //     id: polygonCardData.id,
+                  //     polygonOption: { borderColor: color },
+                  //     options: { strokeColor: NamesToColors[color] },
+                  //   });
+                  // }}
+                  // onChangeBackgroundColor={(color: ButtonColor) => {
+                  //   handleChangePolygonOptions({
+                  //     id: polygonCardData.id,
+                  //     polygonOption: { backgroundColor: color },
+                  //     options: { fillColor: NamesToColors[color] },
+                  //   });
+                  // }}
+                  // onChangeBorderWidth={(borderWidth: BorderWidth) => {
+                  //   handleChangePolygonOptions({
+                  //     id: polygonCardData.id,
+                  //     polygonOption: { borderWidth },
+                  //     options: { strokeWeight: borderWidth },
+                  //   });
+                  // }}
                   onDelete={() => {
                     const [polygonsWithoutCurrent] = dropAndReturnElementById({
                       id: polygonCardData.id,
