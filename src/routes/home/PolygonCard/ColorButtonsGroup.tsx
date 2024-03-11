@@ -64,7 +64,7 @@ export function ColorButtonsGroup({
       {React.Children.map(children, (child) =>
         React.cloneElement(child, {
           selectedValue,
-        })
+        }),
       )}
     </Container>
   );

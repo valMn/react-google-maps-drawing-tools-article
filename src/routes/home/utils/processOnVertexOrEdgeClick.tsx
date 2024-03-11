@@ -11,8 +11,8 @@ const getVertexWithChangedCoordinates = ({
     ({ lat: prevLat, lng: prevLng }) =>
       !prevCoordinates.some(
         ({ lat: currLat, lng: currLng }) =>
-          prevLat === currLat && prevLng === currLng
-      )
+          prevLat === currLat && prevLng === currLng,
+      ),
   );
 
 interface processOnVertexOrEdgeClickProps {

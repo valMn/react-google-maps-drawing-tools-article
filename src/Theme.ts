@@ -105,7 +105,7 @@ const mediaQuery = ({ mobileFirst = true }) =>
       ...deviceMediaQueries,
       [label]: (template: TemplateStringsArray, ...params: string[]) => css`
         @media screen and (${mobileFirst ? "min-width" : "max-width"}: ${math(
-            `${breakpoint} - 0.1px`
+            `${breakpoint} - 0.1px`,
           )}) {
           ${css(template, ...params)}
         }
@@ -117,7 +117,7 @@ const mediaQuery = ({ mobileFirst = true }) =>
         template: TemplateStringsArray,
         ...params: string[]
       ) => FlattenSimpleInterpolation
-    >
+    >,
   );
 
 // mq is for usage within `styled` function
@@ -142,7 +142,7 @@ export const GlobalStyles = createGlobalStyle`
         toSize: "18px",
       },
       "320px",
-      "2200px"
+      "2200px",
     )}
     cursor: initial;
   }

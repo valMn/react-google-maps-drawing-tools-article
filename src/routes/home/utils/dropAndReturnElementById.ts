@@ -12,11 +12,11 @@ export const dropAndReturnElementById = <T extends Id>({
   elements,
 }: Props<T>): [T[], T] => {
   const currentElement = elements.find(
-    ({ id: elementId }: { id: number }) => elementId === id
+    ({ id: elementId }: { id: number }) => elementId === id,
   )!;
 
   const elementsWithoutCurrent = elements.filter(
-    ({ id: elementId }: { id: number }) => id !== elementId
+    ({ id: elementId }: { id: number }) => id !== elementId,
   );
 
   return [elementsWithoutCurrent, currentElement];

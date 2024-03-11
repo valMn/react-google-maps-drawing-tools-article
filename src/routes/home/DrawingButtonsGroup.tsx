@@ -80,7 +80,7 @@ export function DrawingButtonsGroup({
       {React.Children.map(children, (child) =>
         React.cloneElement(child, {
           selectedValue,
-        })
+        }),
       )}
     </Container>
   );

@@ -1,5 +1,5 @@
 export const coordinateFuncsToCoordinates = (
-  coordinates: google.maps.LatLng[]
+  coordinates: google.maps.LatLng[],
 ) =>
   coordinates.map(({ lat, lng }) => ({
     lat: lat(),

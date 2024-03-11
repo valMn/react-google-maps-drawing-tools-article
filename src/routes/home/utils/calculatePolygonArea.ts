@@ -24,7 +24,7 @@ export const calculatePolygonArea = ({
       (isValueDisplayedInSquareMeters
         ? squareMeters
         : squareMeters * squareMetersToSquareKilometersRatio
-      ).toFixed(2)
+      ).toFixed(2),
     );
 
     return isValueDisplayedInSquareMeters ? `${area} m²` : `${area} km²`;
